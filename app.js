@@ -1,5 +1,7 @@
 const allPlayers = () => {
     console.log('hello');
+    document.getElementById('player-container').innerHTML = '';
+    document.getElementById('spineer').style.display = "block";
     const searhValue = document.getElementById('search-box').value;
     console.log(searhValue);
     const url = `https://www.thesportsdb.com/api/v1/json/2/searchplayers.php?p=${searhValue}`
@@ -7,9 +9,11 @@ const allPlayers = () => {
     fetch(url)
     .then(res => res.json())
     .then(data => displayPlayer(data.player))
+    document.getElementById('spineer').style.display = "none";
 }
 
 const displayPlayer = (players) =>{
+
     console.log(players);
     for(const player of players){
         const playerContainer = document.getElementById('player-container');
@@ -45,12 +49,22 @@ const details = (id) => {
 
 const setDetils = (info) => {
     console.log(info)
+    if(info.strGender == 'Male'){
+        document.getElementById('male').style.display = 'block'
+        document.getElementById('female').style.display = 'none'
+    }
+    else{
+        document.getElementById('male').style.display = 'none'
+        document.getElementById('female').style.display = 'block'
+    }
     const playerDetailsContainer = document.getElementById('player-details-container');
     const div = document.createElement('div');
     div.innerHTML = `
             <div class="card border p-5">
             <div class="card">
-                <img class="w-50" src="${info.strThumb}" alt="" srcset="">
+            <div class="pro-pic">
+            <img class="w-50" src="${info.strThumb}" alt="" srcset="">
+            </div>
                 <h2>Name:${info.strPlayer}</h2>
                 <h4>Country ${info.strBirthLocation}</h4>
                 <h5>Gender:${info.strGender}</h5>
@@ -59,3 +73,5 @@ const setDetils = (info) => {
         `
     playerDetailsContainer.appendChild(div);
 }
+
+
